@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   FaGooglePlusG,
   FaFacebookF,
@@ -10,17 +10,26 @@ import AppContext from "../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  // State to toggle between register and login forms
   const [isRegister, setIsRegister] = useState(false);
+
+  // State to hold user input details
   const [userDetails, setUserDetails] = useState({
     name: "",
     email: "",
     password: "",
   });
+
+  // State to display error messages
   const [errMsg, setErrMsg] = useState("");
 
+  // Get base URL from context
   const { url } = useContext(AppContext);
+
+  // useNavigate hook for navigation on success
   const navigate = useNavigate();
 
+  // Handle input changes for form fields
   const handleInput = (e) => {
     const { name, value } = e.target;
     setUserDetails((prevState) => ({
@@ -29,11 +38,21 @@ export default function Login() {
     }));
   };
 
+
+
+   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  // Handle form submission for login or register
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const string = isRegister ? "/auth/signup" : "/auth/login";
-      const response = await axios.post(url + string, userDetails);
+      const endpoint = isRegister ? "/auth/signup" : "/auth/login";
+      const response = await axios.post(url + endpoint, userDetails);
 
       if (response.status === 200 || response.status === 201) {
         setErrMsg("");
@@ -112,14 +131,17 @@ export default function Login() {
                 Sign Up
               </button>
               {errMsg && (
-                <p className="text-sm text-center text-red-500 mt-2">
-                  {errMsg}
-                </p>
+                <p className="text-sm text-center text-red-500 mt-2">{errMsg}</p>
               )}
             </form>
-            <p onClick={() => setIsRegister(true)} className="text-sm text-center md:none text-violet-500 mt-2">
-                  Don't have a account? Create account
-                </p>
+
+            {/* Toggle to Login on small devices */}
+            <p
+              onClick={() => setIsRegister(false)}
+              className="text-sm text-center md:hidden text-violet-500 mt-2 cursor-pointer"
+            >
+              Already have an account? Login
+            </p>
           </div>
         )}
 
@@ -178,18 +200,21 @@ export default function Login() {
                 Sign In
               </button>
               {errMsg && (
-                <p className="text-sm text-center text-red-500 mt-2">
-                  {errMsg}
-                </p>
+                <p className="text-sm text-center text-red-500 mt-2">{errMsg}</p>
               )}
             </form>
-            <p onClick={() => setIsRegister(false)} className="text-sm text-center md:none text-violet-500 mt-2">
-                  Already have a account? Login
-                </p>
+
+            {/* Toggle to Register on small devices */}
+            <p
+              onClick={() => setIsRegister(true)}
+              className="text-sm text-center md:hidden text-violet-500 mt-2 cursor-pointer"
+            >
+              Don't have an account? Create account
+            </p>
           </div>
         )}
 
-        {/* Toggle Panel (hidden on small screens) */}
+        {/* Side panel with toggle buttons for medium and larger screens */}
         <div className="hidden md:flex w-1/2 bg-gradient-to-r from-indigo-500 to-indigo-700 text-white items-center justify-center p-8 transition-all duration-500">
           {!isRegister ? (
             <div className="flex flex-col items-center justify-center text-center">
