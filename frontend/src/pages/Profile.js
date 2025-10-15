@@ -65,13 +65,13 @@ const Profile = () => {
     setShowForm(false)
     setChangePassword(false)
     setMsg('')
-    fetchData() // reset form to original data
+    fetchData() 
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // Build payload depending on whether password change requested
+  
       
       
 
@@ -85,7 +85,7 @@ const Profile = () => {
         setMsg('Profile updated successfully')
         setShowForm(false)
         setChangePassword(false)
-        fetchData() // refresh with updated data
+        fetchData() 
       } else {
         setMsg('Failed to update profile')
       }
@@ -96,15 +96,15 @@ const Profile = () => {
   }
 
   return (
-    <div className='w-full min-h-[100vh] flex flex-col pt-20'>
-      <div className='w-[60%] mx-auto flex flex-col gap-4'>
+    <div className='w-full min-h-[100vh] flex flex-col p-5 md:pt-20'>
+      <div className='w-[85%] md:w-[60%] mx-auto flex flex-col gap-4'>
         <FaArrowLeft onClick={() => navigate('/')} size={24} className='cursor-pointer' />
         <div className='flex flex-col gap-2'>
           <h1 className='text-3xl font-extrabold'>Profile Settings</h1>
           <p className='text-md font-medium'>Manage your account information</p>
         </div>
-        <div className='w-full self-center border border-gray-500 py-4 px-4 flex justify-between gap-3'>
-          <div className='flex items-center gap-4'>
+        <div className='w-full self-center border border-gray-500 p-2 md:py-4 md:px-4 flex flex-col md:flex-row justify-between gap-3'>
+          <div className='flex  items-center gap-4'>
             <IoPerson size={44} className='p-2 cursor-pointer rounded-full bg-black text-white' />
             <div className='flex flex-col gap-2'>
               <h2 className='text-2xl font-bold'>{form.name || 'User Name'}</h2>
