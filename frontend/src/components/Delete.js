@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useContext, useState } from 'react'
 import AppContext from '../context/AppContext'
 
-const Delete = ({id, setDelete}) => {
+const Delete = ({id, setShowDeletTask}) => {
   const [msg, setMsg] = useState('')
   const {url} = useContext(AppContext)
   const token = localStorage.getItem('token')
@@ -11,7 +11,7 @@ const Delete = ({id, setDelete}) => {
       if(response.status === 200 || response.status === 201){
           setMsg('Task Deleted')
           setTimeout(() => {
-            setDelete(false)
+            setShowDeletTask(false)
           }, 2000);
       } else{
         setMsg('Something Went Wrong')
@@ -23,7 +23,7 @@ const Delete = ({id, setDelete}) => {
        max-h-[220px] rounded bg-white flex flex-col gap-3'>
            <p>Are you sure?</p>
            <div className='flex justify-center items-center gap-2'>
-             <button className='py-0.5 px-2  text-white bg-gray-400 text-md font-medium'>Cancel</button>
+             <button onClick={() => setShowDeletTask(false)} className='py-0.5 px-2  text-white bg-gray-400 text-md font-medium'>Cancel</button>
              <button onClick={handleDelete} className='py-0.5 px-2 text-white bg-red-400 text-md font-medium'>Delete</button>
            </div>
            {msg && <p className='text-md text-center text-gray-600'>{msg}</p>}

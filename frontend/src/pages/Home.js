@@ -10,6 +10,8 @@ import { MdDelete } from "react-icons/md";
 import AddTask from '../components/AddTask';
 import AppContext from '../context/AppContext'
 import axios from 'axios'
+import Delete from '../components/Delete';
+import EditTask from '../components/EditTask';
 
 const urlStatus = {
   success: 'SUCCESS',
@@ -184,7 +186,7 @@ const Home = () => {
                         <FaEdit className='text-gray-600' size={20} />
                       </button>
                       <button onClick={() => {setShowDeletTask(true)
-                        setTaskId
+                        setTaskId(task.id)
                       }} className='p-2 rounded-md hover:bg-muted'>
                         <MdDelete className='text-gray-600' size={20} />
                       </button>
@@ -216,6 +218,10 @@ const Home = () => {
               id={taskId}
               setShowEditTask={setShowEditTask}
             />
+          )}
+
+          {showDeleteTask && (
+            <Delete id={taskId} setShowDeletTask={setShowDeletTask} />
           )}
         </div>
       </div>
