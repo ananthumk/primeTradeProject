@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+Task Manager Frontend
+This is a React frontend application for a task manager system. It provides user authentication, task creation, editing, deletion, and viewing with smooth UI and protected routes.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Features
+User login and registration pages
 
-## Available Scripts
+Protected routes for authenticated users only
 
-In the project directory, you can run:
+View task status with counts (Completed, In Progress, Pending)
 
-### `npm start`
+Add, edit, delete tasks with modals
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Profile page to update user info and password
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Responsive and clean UI using Tailwind CSS
 
-### `npm test`
+Context for backend API URL
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Loading spinners and friendly error handling
 
-### `npm run build`
+Tech Stack
+React.js (with hooks)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+React Router for navigation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Axios for API requests
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Tailwind CSS for styling
 
-### `npm run eject`
+React Icons for UI icons
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Context API for global settings
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Getting Started
+1. Clone the repo and install dependencies
+bash
+git clone <repository-url>
+cd frontend
+npm install
+2. Environment Setup
+The app uses a context file src/context/AppContext.js for the backend base URL.
+Change the URL there if you want to point to a different backend.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. Running the app locally
+bash
+npm start
+This will open your browser at http://localhost:3000.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Pages & Components Overview
+/login – Login and registration form with toggling views
 
-## Learn More
+/ (Home) – Dashboard showing task statuses and task management
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+/profile – User profile page for viewing and updating user info
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+ProtectedRoute – Wraps routes requiring authentication
 
-### Code Splitting
+Navbar – Top navigation with profile and logout
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+AddTask, EditTask, Delete – Modals for task CRUD operations
 
-### Analyzing the Bundle Size
+Usage
+Login/Register
+Enter your credentials to login or switch to register mode to create a new account.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+On success, a token is saved in local storage and you are redirected to the home page.
 
-### Making a Progressive Web App
+Task Management
+On home page, view summary cards for completed, in-progress, and pending tasks.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Search and filter tasks by status or title.
 
-### Advanced Configuration
+Add, edit, or delete tasks using the UI buttons, which open modals for actions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Profile Management
+Access your profile from the navbar.
 
-### Deployment
+Edit your name, email, and optionally change your password securely.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Notes
+All backend requests include the JWT token from local storage for authentication.
 
-### `npm run build` fails to minify
+The frontend expects the backend API to be running and accessible at the URL in context.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This is a single-page app built with React Router for seamless navigation.
+
+Project Structure
+text
+src/
+├── components/      # UI components (Navbar, AddTask, EditTask, Delete, ProtectedRoute)
+├── context/         # App context for backend URL
+├── pages/           # Screens (Home, Login, Profile)
+├── App.js           # Root app with routes
+├── index.js         # ReactDOM bootstrap
+...
+How to Contribute
+Feel free to open issues or submit pull requests. Suggestions and improvements are welcome!
+
+License
+This project is open source and available under the MIT License.

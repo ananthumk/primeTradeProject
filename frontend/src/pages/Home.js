@@ -1,17 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { TailSpin } from 'react-loader-spinner';
+import { TailSpin } from 'react-loader-spinner'
 import Navbar from '../components/Navbar'
-import { SiTicktick } from "react-icons/si";
-import { GrInProgress } from "react-icons/gr";
-import { MdPendingActions } from "react-icons/md";
-import { IoIosSearch } from "react-icons/io";
-import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import AddTask from '../components/AddTask';
+import { SiTicktick } from "react-icons/si"
+import { GrInProgress } from "react-icons/gr"
+import { MdPendingActions } from "react-icons/md"
+import { IoIosSearch } from "react-icons/io"
+import { FaEdit } from "react-icons/fa"
+import { MdDelete } from "react-icons/md"
+import AddTask from '../components/AddTask'
 import AppContext from '../context/AppContext'
 import axios from 'axios'
-import Delete from '../components/Delete';
-import EditTask from '../components/EditTask';
+import Delete from '../components/Delete'
+import EditTask from '../components/EditTask'
 
 const urlStatus = {
   success: 'SUCCESS',
@@ -23,45 +23,46 @@ const urlStatus = {
 const Home = () => {
   const [showAddTask, setShowAddTask] = useState(false)
   const [showEditTask, setShowEditTask] = useState(false)
-  const [showDeleteTask, setShowDeletTask] = useState(false)
-  const {taskId, setTaskId} = useState(null)
+  const [showDeleteTask, setShowDeleteTask] = useState(false)
+  const [taskId, setTaskId] = useState(null)
   const [taskDetails, setTaskDetails] = useState([])
   const [status, setStatus] = useState(urlStatus.initial)
-  const [completedTasks, setCompletedTask] = useState(0)
-  const [pendingTasks, setPendingTask] = useState(0)
-  const [inProgressTasks, setInProgressTask] = useState(0)
+  const [completedTasks, setCompletedTasks] = useState(0)
+  const [pendingTasks, setPendingTasks] = useState(0)
+  const [inProgressTasks, setInProgressTasks] = useState(0)
   const [errMsg, setErrMsg] = useState('')
   const [searchText, setSearchText] = useState('')
   const [category, setCategory] = useState('All')
-  const token = localStorage.getItem('token')
   const { url } = useContext(AppContext)
+  const token = localStorage.getItem('token')
+  
 
   const fetchData = async () => {
-    try {
-      setStatus(urlStatus.inProgress)
-      const response = await axios.get(`${url}/task/`, {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      const tasks = Array.isArray(response.data) ? response.data : (response.data.tasks || [])
-      setTaskDetails(tasks)
-      setErrMsg('')
-      setStatus(urlStatus.success)
+      try {
+        setStatus(urlStatus.inProgress)
+        const response = await axios.get(`${url}/task/`, {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+        const tasks = Array.isArray(response.data) ? response.data : (response.data.tasks || [])
+        setTaskDetails(tasks)
+        setErrMsg('')
+        setStatus(urlStatus.success)
 
-      const completedCount = tasks.filter(task => task.status === 'COMPLETED').length
-      const inProgressCount = tasks.filter(task => task.status === 'IN_PROGRESS').length
-      const pendingCount = tasks.filter(task => task.status === 'PENDING').length
+        const completedCount = tasks.filter(task => task.status === 'COMPLETED').length
+        const inProgressCount = tasks.filter(task => task.status === 'IN_PROGRESS').length
+        const pendingCount = tasks.filter(task => task.status === 'PENDING').length
 
-      setCompletedTask(completedCount)
-      setInProgressTask(inProgressCount)
-      setPendingTask(pendingCount)
-    } catch (error) {
-      setStatus(urlStatus.failure)
-      console.log('home', error)
-      setErrMsg('Something went wrong! Try again')
+        setCompletedTasks(completedCount)
+        setInProgressTasks(inProgressCount)
+        setPendingTasks(pendingCount)
+      } catch (error) {
+        setStatus(urlStatus.failure)
+        console.log('home', error)
+        setErrMsg('Something went wrong! Try again')
+      }
     }
-  }
-
   useEffect(() => {
+    
     fetchData()
   }, [url])
 
@@ -130,7 +131,6 @@ const Home = () => {
                 onChange={e => setSearchText(e.target.value)}
               />
             </div>
-
             {/* Category Buttons */}
             <div className='flex flex-wrap gap-2'>
               {['All', 'COMPLETED', 'IN_PROGRESS', 'PENDING'].map(cat => (
@@ -180,14 +180,10 @@ const Home = () => {
                       </div>
                     </div>
                     <div className='flex gap-2'>
-                      <button onClick={() => {setShowEditTask(true)
-                        setTaskId(task.id)
-                      }} className='p-2 rounded-md hover:bg-muted'>
+                      <button onClick={() => { setShowEditTask(true); setTaskId(task.id) }} className='p-2 rounded-md hover:bg-gray-200'>
                         <FaEdit className='text-gray-600' size={20} />
                       </button>
-                      <button onClick={() => {setShowDeletTask(true)
-                        setTaskId(task.id)
-                      }} className='p-2 rounded-md hover:bg-muted'>
+                      <button onClick={() => { setShowDeleteTask(true); setTaskId(task.id) }} className='p-2 rounded-md hover:bg-gray-200'>
                         <MdDelete className='text-gray-600' size={20} />
                       </button>
                     </div>
@@ -213,15 +209,16 @@ const Home = () => {
             </div>
           )}
 
+          {/* Edit Task Modal */}
           {showEditTask && (
-            <EditTask
-              id={taskId}
-              setShowEditTask={setShowEditTask}
-            />
+            <div className='px-10 py-3'>
+            <EditTask id={taskId} setShowEditTask={setShowEditTask} /></div>
           )}
 
+          {/* Delete Task Modal */}
           {showDeleteTask && (
-            <Delete id={taskId} setShowDeletTask={setShowDeletTask} />
+            <div className='px-10 py-3'>
+            <Delete id={taskId} setShowDeleteTask={setShowDeleteTask} /></div>
           )}
         </div>
       </div>

@@ -23,7 +23,8 @@ const intializeDbAndServer = async () => {
         })
 
         console.log('Database connected')
-
+        
+        //Routes
         const authRoutes = require('./src/auth')(db)
         const middleware = require('./src/middleware')
         const userRoutes = require('./src/user')(db)

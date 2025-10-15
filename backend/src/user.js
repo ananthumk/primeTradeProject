@@ -3,11 +3,14 @@ const bcrypt = require('bcrypt')
 
 module.exports = function(db){
     const router = express.Router()
-
+    
+    //Get User
     router.get('/', async(req, res) => {
         try {
             const query = 'SELECT * FROM users WHERE id = ?'
             const user = await db.get(query, [req.user.id])
+
+            if(!user) return res.status(404).json({message: 'User not found'})
 
             return res.status(200).json({user})
         } catch (error) {
@@ -41,22 +44,21 @@ module.exports = function(db){
     //     }
     // })
 
+
+    // Edit User
     router.put('/', async (req, res) => {
         try {
-            // Log to debug
-            console.log('Request body:', req.body);
-            console.log('User ID from token:', req.user?.id);
             
             const { name, email, oldPassword, newPassword } = req.body;
             
-            // Validate input
+           
             if (!name || !email || !oldPassword || !newPassword) {
                 return res.status(400).json({ 
                     message: 'All fields are required (name, email, oldPassword, newPassword)' 
                 });
             }
             
-            // Get the current user by ID (from JWT token)
+            
             const query = 'SELECT * FROM users WHERE id = ?';
             const user = await db.get(query, [req.user.id]);
             
@@ -64,7 +66,7 @@ module.exports = function(db){
                 return res.status(404).json({ message: 'User not found' });
             }
             
-            // Verify old password (correct order: plaintext first, hash second)
+            // Verify old password 
             const matchPassword = await bcrypt.compare(oldPassword, user.password);
             if (!matchPassword) {
                 return res.status(401).json({ message: 'Incorrect old password' });

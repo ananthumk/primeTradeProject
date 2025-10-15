@@ -8,7 +8,7 @@ const middleware = async (req, res, next) => {
         if (!authHeader) return res.status(401).json({message: 'Token is required'})
 
         const token = authHeader.split(' ')[1]
-        if(!token) return res.status(401).json({message: "Invalid token format"})
+        if(!token) return res.status(400).json({message: "Invalid token format"})
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_KEY)
@@ -16,7 +16,7 @@ const middleware = async (req, res, next) => {
             next()
         } catch (error) {
             console.log('middleware: ', error.message)
-            return res.status(401).json({message: 'Invalid or expired token'})
+            return res.status(403).json({message: 'Invalid or expired token'})
         }
 
         

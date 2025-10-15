@@ -12,15 +12,17 @@ const generateToken = (payload) => {
 
 module.exports = function (db) {
     const router = express.Router()
-
+    // Register
     router.post('/signup', async (req, res) => {
         try {
             const {name, email, password} = req.body 
 
+            if (!name || !email || !password) return res.status(400).json({message: 'All fields are required'})
+
             const query = 'SELECT * FROM users WHERE email = ?'
             const existingUser = await db.get(query, [email])
 
-            if(existingUser) return res.status(400).json({message: 'User already exist'})
+            if(existingUser) return res.status(409).json({message: 'User already exist'})
 
             const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -39,19 +41,22 @@ module.exports = function (db) {
             return res.status(500).json({message: 'Something went wrong! Try again later'})
         }
     })
-
+   
+    // Login
     router.post('/login', async (req, res) => {
         try {
             const {email, password} = req.body 
 
+            if(!email || !password) return res.status(400).json({message: 'Email and password are required'})
+
             const query = 'SELECT * FROM users WHERE email = ?'
             const existingUser = await db.get(query, [email]) 
 
-            if(!existingUser) return res.status(400).json({message: 'User not found'})
+            if(!existingUser) return res.status(404).json({message: 'User not found'})
 
             const matchPassword = await bcrypt.compare( password, existingUser.password)
             
-            if(!matchPassword) return res.status(400).json({message: 'Invalid Password'})
+            if(!matchPassword) return res.status(401).json({message: 'Invalid Password'})
 
             const token = generateToken({ id: existingUser.id, email: existingUser.email })
 

@@ -6,7 +6,7 @@ const EditTask = ({ setShowEditTask, id }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
-    status: 'pending'
+    status: 'PENDING'  
   })
   const [msg, setMsg] = useState('')
   const { url } = useContext(AppContext)
@@ -59,7 +59,7 @@ const EditTask = ({ setShowEditTask, id }) => {
   }
 
   return (
-    <div className='w-full py-2 px-10 mx-10 flex flex-col border border-gray-500 gap-3'>
+    <div className='w-full py-2 px-3 flex flex-col border border-gray-500 gap-3'>
       <h3>Edit Task</h3>
       <form onSubmit={handleSubmit} className=''>
         <div className='flex flex-col gap-1'>
@@ -93,9 +93,9 @@ const EditTask = ({ setShowEditTask, id }) => {
             value={form.status}
             className='py-0.5 px-3 border border-gray-500 rounded max-w-[200px]'
           >
-            <option value="pending">Pending</option>
-            <option value="in progress">In Progress</option>
-            <option value="completed">Completed</option>
+            <option value="PENDING">Pending</option>
+            <option value="IN_PROGRESS">In Progress</option>
+            <option value="COMPLETED">Completed</option>
           </select>
         </div>
         <div className='flex items-center justify-end gap-3'>
