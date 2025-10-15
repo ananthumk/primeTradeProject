@@ -117,6 +117,9 @@ export default function Login() {
                 </p>
               )}
             </form>
+            <p onClick={() => setIsRegister(true)} className="text-sm text-center md:none text-violet-500 mt-2">
+                  Don't have a account? Create account
+                </p>
           </div>
         )}
 
@@ -180,6 +183,9 @@ export default function Login() {
                 </p>
               )}
             </form>
+            <p onClick={() => setIsRegister(false)} className="text-sm text-center md:none text-violet-500 mt-2">
+                  Already have a account? Login
+                </p>
           </div>
         )}
 
