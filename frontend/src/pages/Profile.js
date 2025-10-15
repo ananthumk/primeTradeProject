@@ -120,7 +120,7 @@ const Profile = () => {
           <div className='w-full bg-slate-200 rounded'>
             <form onSubmit={handleSubmit} className='flex flex-col gap-3 p-2'>
 
-              <div className='grid grid-cols-2 gap-5'>
+              <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                 <div className='flex flex-col gap-1'>
                   <label className='text-md font-medium'>Name</label>
                   <input
@@ -152,7 +152,7 @@ const Profile = () => {
               </p>
 
               {changePassword && (
-                <div className='grid grid-cols-2 gap-5'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
                   <div className='flex flex-col gap-1'>
                     <label className='text-md font-medium'>Old Password</label>
                     <input
