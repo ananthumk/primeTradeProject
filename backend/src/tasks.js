@@ -27,6 +27,19 @@ module.exports = function(db){
         }
     })
 
+    router.get('/:id', async (req, res) => {
+        try {
+            const {id} = req.parama 
+            const query = 'SELECT * FROM tasks WHERE id = ?'
+            const tasks = await db.all(query, [id])
+  
+            return res.status(200).json({tasks})
+        } catch (error) {
+            console.log('While getting tasks: ', error.message)
+            return res.status(500).json({message: 'Something went wrong! Try again later'})
+        }
+    })
+
   router.put('/:id', async (req, res) => {
     try {
         const {id} = req.params;
